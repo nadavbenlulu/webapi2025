@@ -24,7 +24,7 @@ const mongoPass=process.env.MONGO_PASS;//קישור לסיסמה
 const mongoServer=process.env.MONGO_SERVER;//קישור לשרת 
 //התחברות לענן מונגו 
 const mongoConstr=`mongodb+srv://${mongoUser}:${mongoPass}@${mongoServer}/?appName=Cluster0`;
-console.log(mongoConstr);
+console.log(mongoConstr);//
 
 
 
