@@ -1,26 +1,58 @@
+const mongoose=require('mongoose');
+const Product=require('../models/product');
+
 const obj={
 getALLProduct:(req,res)=>{
-   
-       return res.status(200) .json({msg:"all prodcuts"});
+   Product.find().then((data)=>{
+      return res.status(200).json(data);
+   })
     },
-    addNewProduct:(req,res)=>{
-   
-       return res.status(200) .json({msg:"new prodcuts"});
-    },
-    addProductById:  (req,res)=>{
 
-     return res.status(200) .json({msg:"new product by id"});
-    },    
-    updateProductById: (req,res)=>
- {return res.status(200).json({msg:`get new product ${req.params.id}`});        
+    addNewProduct: (req, res) => {
+  const pid = req.body.pid;
+//לפני הוספת מוצר חדש נבדוק האם קיים מוצר אם אותו קוד מוצר
+  Product.find({ pid: pid }).then((data) => {
+    if (data.length > 0) {
+      return res
+        .status(200)
+        .json({ message: `product id ${pid} already exist` });
+    } else {
+      Product.insertOne(req.body).then((prod) => {
+        return res.status(200).json(prod);
+      });
+    }
+  });
 },
-deleteProductById: (req,res)=>{
-    
-      return  res.status(200).json({msg:`Delete  product  ${req.params.id}`});
+
+    addProductById:  (req,res)=>{
+       const pid=req.params.id;
+      Product.insertOne(req.body).then((prod)=>{
+         return res.status(200).json(prod);
+      });
+    },    
+    updateProductById:(req,res)=>{
+      const pid=req.params.id;
+      Product.updateOne({pid},req.body).then((prod)=>{
+         return res.status(200).json(prod);
+      });
+        
+   },
+
+//חדש
+deleteProductById:(req,res)=>{
+      const pid=req.params.id;
+      Product.deleteOne({pid}).then((prod)=>{
+         return res.status(200).json(prod);
+      })
     } ,
+
+    //חדש קוד 
     getproductbyid: (req,res)=>{
-    
-      return  res.status(200).json({msg:`get product by id'  ${req.params.id}`});
+      const id=req.params.id;
+      Product.find({pid:id}).then((prod)=>{
+         return res.status(200).json(prod);
+      })
+     
     } ,
 }
 module.exports=obj

@@ -10,7 +10,7 @@ const categoryRouter=require('./api/v1/routes/category');
 const userRouter=require('./api/v1/routes/user');
 const morgan=require('morgan');//קישור לספריית מורגן לניטור בקשות http 
 const ipFilter=require('./api/v1/middelwares/ipFilter');
-const mongoose=require('mongoose');// קישור לספקיית מונגוס
+const mongoose=require('mongoose');// קישור לספריית מונגוס
 
 //רישום ראוטרים באפךיקצייה
 app.use(morgan('dev'));//שימוש במורגן לניטור בקשות http בפורמט פיתוח 
@@ -30,7 +30,7 @@ console.log(mongoConstr)
 mongoose.connect(mongoConstr).then((stat)=>{
 console.log("connected to MongoDB");
 })
-//ניצור סכימה שזה מבנה עבור מוצר 
+//ניצור סכימה שזה מבנה עבור מוצר מבנה 
 const productSchema= new mongoose.Schema({
     pid:Number,
     price:Number,
@@ -40,13 +40,14 @@ const productSchema= new mongoose.Schema({
 //הפונקציה מקבלת שתי פרמטרים הראשון שם הטבלה בבסיס הנתונים והשני את הסכימה (תבנית ) איתה נעבוד מול הטבל בבסיס הנתונים)
 const Product= new mongoose.model('products',productSchema);
 
-
 //הוספת מוצר חדש
-Product.insertOne({pid:2,price:40,pname:"milk"});
+// Product.insertOne({pid:7,price:10,pname:"water"});
 //מבצעים חיפושים של כל המוצרים בטבלת מוצרים ומדפיסים אותם 
-Product.find().then( (data)=>{
-    console.log(data);
+Product.find({pid:{$gt:3}},{pid:1,price:1,_id:0}).then( (product)=>{
+    console.log(product);
 });
+
+
 //מחיקה לא חובה
 // Product.deleteOne({pid:8}).then((count)=>{
 //     console.log('product deleted');
