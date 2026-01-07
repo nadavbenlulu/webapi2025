@@ -12,6 +12,8 @@ const morgan=require('morgan');//קישור לספריית מורגן לניטו
 const ipFilter=require('./api/v1/middelwares/ipFilter');
 const mongoose=require('mongoose');// קישור לספריית מונגוס
 
+
+
 //רישום ראוטרים באפךיקצייה
 app.use(morgan('dev'));//שימוש במורגן לניטור בקשות http בפורמט פיתוח 
 app.use(express.json());//הוספת שכבה לטיפול בבקשות בקידוד של גייסון
@@ -30,22 +32,38 @@ console.log(mongoConstr)
 mongoose.connect(mongoConstr).then((stat)=>{
 console.log("connected to MongoDB");
 })
-//ניצור סכימה שזה מבנה עבור מוצר מבנה 
-const productSchema= new mongoose.Schema({
-    pid:Number,
-    price:Number,
-    pname:String
+
+//חיבור לבסיס נתונים מסוג  MYSQL 
+const mysql = require('mysql2');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'nadav',
+  password : '1234',
+  database : 'ecommdb'
 });
+ 
+connection.connect((err)=>{
+    if (err==null)
+        console.log('good MySql connection')
+    else
+        console.log(err);
+});
+let sql="select* from t_product ";
+connection.promise().query(sql).then((results)=>{
+    console.log(results[0]);
+});
+
+
+
+
+
+
+
+//ניצור סכימה שזה מבנה עבור מוצר מבנה 
+
 //כעת ניצור מודל עבור מוצר שזה החיבור של הסכימה יחד עם הטבלה בבסיס הנתונים 
 //הפונקציה מקבלת שתי פרמטרים הראשון שם הטבלה בבסיס הנתונים והשני את הסכימה (תבנית ) איתה נעבוד מול הטבל בבסיס הנתונים)
-const Product= new mongoose.model('products',productSchema);
-
-//הוספת מוצר חדש
 // Product.insertOne({pid:7,price:10,pname:"water"});
-//מבצעים חיפושים של כל המוצרים בטבלת מוצרים ומדפיסים אותם 
-Product.find({pid:{$gt:3}},{pid:1,price:1,_id:0}).then( (product)=>{
-    console.log(product);
-});
 
 
 //מחיקה לא חובה
