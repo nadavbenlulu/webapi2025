@@ -1,13 +1,13 @@
 const express=require('express');
 const router = express.Router();
-const prodcutsconteoller=require('../controllers/product_mysql');
-const{getALLProduct,
-    addNewProduct,
-    getproductbyid,
-    updateProductById,
-    deleteProductById
+const prodcutsconteoller=require('../controllers/product');
+// const{getALLProduct,
+//     addNewProduct,
+//     getproductbyid,
+//     updateProductById,
+//     deleteProductById
     
-}=require('../controllers/product_mysql');
+// }=require('../controllers/product');
 
 // נקודת קצה לשליפת כל המוצרים 
 router.get('/',prodcutsconteoller.getALLProduct);   //הגדרת נקודת קצה שאמורה להחזיר את כל המוצרים
