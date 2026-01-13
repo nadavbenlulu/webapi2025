@@ -34,30 +34,6 @@ console.log("connected to MongoDB");
 })
 
 //חיבור לבסיס נתונים מסוג  MYSQL 
-const mysql = require('mysql2');
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'nadav',
-  password : '1234',
-  database : 'ecommdb'
-});
- 
-connection.connect((err)=>{
-    if (err==null)
-        console.log('good MySql connection')
-    else
-        console.log(err);
-});
-let sql="select* from t_product ";
-connection.promise().query(sql).then((results)=>{
-    console.log(results[0]);
-});
-
-
-
-
-
-
 
 //ניצור סכימה שזה מבנה עבור מוצר מבנה 
 
